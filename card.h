@@ -5,6 +5,9 @@ class card
 {
 public:
     card();
+    card(int nom, int mas);
+    card(const card &a);
+    ~card();
     int nominal;
     int mast;
 };
