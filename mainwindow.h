@@ -19,9 +19,9 @@ public:
     
 private:
     Ui::MainWindow *ui;
-    card coloda [52];
+    card *coloda [52];
     int col_p, col_c, curr_player;
-    card array[52][8], top_card[52];
+    card array[8][52], *top_card[52];
     int col[8],top_counter, miss_counter;
 private slots:
     void giveCards();
