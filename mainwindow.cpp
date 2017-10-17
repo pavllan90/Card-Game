@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     for(int i = 0; i<52; i++)
-        coloda.push(card(Nominal(i%13), Suit(i%4))),
+        coloda.push(card(Nominal(i%13), Suit(i%4))), qDebug("==%s", coloda.front()->data.cardToString().toLatin1().data() );
     srand(time(NULL));
     card temp;
     int curr;
@@ -24,7 +24,6 @@ MainWindow::MainWindow(QWidget *parent) :
         b->data=a->data;
         a->data = temp;
     }
-    qDebug("Size is %d", coloda.size());
     coloda.show();
     miss_counter=0;
     gameOver = false;
@@ -71,31 +70,36 @@ void MainWindow::giveCards()
 
 void MainWindow::nextStep()
 {
-    if(top_card.isEmpty())
-    {
-        top_card.push(players[curr_player].pop());
-    }
-    ui->textEdit->append("-----------\nTop card is: "+top_card.getFirst()->cardToString()+"\n");
-    if(players[curr_player].getFirst()->getSuit()==top_card.getFirst()->getSuit()||players[curr_player].getFirst()->getNominal()==top_card.getFirst()->getNominal())
-    {
-      ui->textEdit->append("Player #: "+QString::number(curr_player)+" -> "+players[curr_player].getFirst()->cardToString());
-      top_card.push(players[curr_player].pop());
-      miss_counter = 0;
-    }
-    else
-    {
-      miss_counter+=1;
-      ui->textEdit->append("Player #: "+ QString::number(curr_player)+" misses the step\n");
-    }
-    if(miss_counter==col_p)
-    {
-      top_card.pop();
-      miss_counter = 0;
-    }
-    if(players[curr_player].isEmpty())
-      ui->textEdit->append("Player #"+QString::number(curr_player)+" is a WINNER!"), ui->pushButton_2->setDisabled(true), gameOver = true;
     if(curr_player<col_p-1)curr_player+=1;
     else curr_player = 0;
+    if(players[curr_player].isEmpty())
+        ui->textEdit->append("Player #"+QString::number(curr_player)+" is a WINNER!"), ui->pushButton_2->setDisabled(true), gameOver = true;
+    else
+    {
+        if(top_card.isEmpty())
+        {
+            top_card.push(players[curr_player].pop());
+        }
+        ui->textEdit->append("-----------\nTop card is: "+top_card.getFirst()->cardToString()+"\n");
+        if(players[curr_player].getFirst()->getSuit()==top_card.getFirst()->getSuit()||players[curr_player].getFirst()->getNominal()==top_card.getFirst()->getNominal())
+        {
+            ui->textEdit->append("Player #: "+QString::number(curr_player)+" -> "+players[curr_player].getFirst()->cardToString());
+            top_card.push(players[curr_player].pop());
+            miss_counter = 0;
+        }
+        else
+        {
+            miss_counter+=1;
+            ui->textEdit->append("Player #: "+ QString::number(curr_player)+" misses the step\n");
+        }
+        if(miss_counter==col_p)
+        {
+            top_card.pop();
+            miss_counter = 0;
+        }
+    }
+    if(players[curr_player].isEmpty())
+        ui->textEdit->append("Player #"+QString::number(curr_player)+" is a WINNER!"), ui->pushButton_2->setDisabled(true), gameOver = true;
 }
 
 MainWindow::~MainWindow()
