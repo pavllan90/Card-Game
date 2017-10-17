@@ -37,6 +37,11 @@ card::~card()
 
 }
 
+void card::show()
+{
+    std::cout<<cardToString().toLatin1().data()<<std::endl;
+}
+
 QString card::suitToString()
 {
     switch (suit)

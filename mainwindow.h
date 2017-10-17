@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "card.h"
+#include "stack.h"
 
 #include <QMainWindow>
 
@@ -19,13 +20,16 @@ public:
     
 private:
     Ui::MainWindow *ui;
-    card *coloda [52];
+    Stack coloda;
     int col_p, col_c, curr_player;
-    card array[8][52], *top_card[52];
-    int col[8],top_counter, miss_counter;
+    Stack players[10];
+    Stack top_card;
+    int miss_counter;
+    bool gameOver;
 private slots:
     void giveCards();
     void nextStep();
+    void fastGame();
 };
 
 #endif // MAINWINDOW_H

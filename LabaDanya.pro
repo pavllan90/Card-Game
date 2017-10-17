@@ -12,9 +12,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    card.cpp
+    card.cpp \
+    node.cpp \
+    stack.cpp
 
 HEADERS  += mainwindow.h \
-    card.h
+    card.h \
+    node.h \
+    stack.h
 
 FORMS    += mainwindow.ui

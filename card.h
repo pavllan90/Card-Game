@@ -1,6 +1,7 @@
 #ifndef CARD_H
 #define CARD_H
 #include <QString>
+#include <iostream>
 
 enum Suit
 {
@@ -26,6 +27,7 @@ public:
     void setNominal(Nominal _nominal);
     Suit getSuit();
     void setSuit(Suit _suit);
+    void show();
 private:
     Nominal nominal;
     Suit suit;
