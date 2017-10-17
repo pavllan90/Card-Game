@@ -47,7 +47,7 @@ void MainWindow::giveCards()
 {
     bool f;
     col_p = ui->lineEdit->text().toInt(&f);
-    if(f&&col_p<=8)
+    if(f&&col_p<=9&&col_p>0)
     {
         ui->pushButton_2->setEnabled(true);
         ui->pushButton_3->setEnabled(true);
@@ -58,28 +58,13 @@ void MainWindow::giveCards()
             std::cout<<"Player "<<i+1<<std::endl;
             players[i].show();
         }
-//        qDebug("Col c %d", col_c);
-//        int c = 0;
-//        for(int i = 0; i<col_p; i++)
-//            for(int j = 0; j<col_c; j++)
-//                array[i][j]= card (*coloda[c]), c+=1;
-//        for(int i = 0; i<col_p; i++)
-//        {
-//            qDebug("\nPlayer # %d\n:  ", i);
-//            for(int j = 0; j<col_c; j++)
-//                qDebug(" %s \n", array[i][j].cardToString().toLatin1().data());
-//        }
-//        for(int i = 0; i<col_p; i++) col[i]=col_c-1;
-//        top_counter=0;
           curr_player = 0;
           top_card.push(players[0].pop());
           curr_player = 1;
-//        col[curr_player]-=1;
-//        curr_player+=1;
     }
     else
     {
-        ui->textEdit->append("Put number between 1 and 8");
+        ui->textEdit->append("Put number between 1 and 10");
         ui->pushButton_2->setDisabled(true);
     }
 }
@@ -111,38 +96,6 @@ void MainWindow::nextStep()
       ui->textEdit->append("Player #"+QString::number(curr_player)+" is a WINNER!"), ui->pushButton_2->setDisabled(true), gameOver = true;
     if(curr_player<col_p-1)curr_player+=1;
     else curr_player = 0;
-
-//    if(array[curr_player][col[curr_player]].getSuit()==top_card[top_counter]->getSuit()|| array[curr_player][col[curr_player]].getNominal()==top_card[top_counter]->getNominal()){
-//        ui->textEdit->append("Player #: "+QString::number(curr_player)+" -> "+array[curr_player][col[curr_player]].cardToString());
-//        top_counter+=1;
-//        top_card[top_counter] = new card;
-//        *top_card[top_counter]=array[curr_player][col[curr_player]];
-//        col[curr_player]-=1;
-//        miss_counter=0;
-//    }
-//    else
-//    {
-//        ui->textEdit->append("Player #: "+ QString::number(curr_player)+" misses the step\n");
-//        miss_counter+=1;
-//    }
-//    if(miss_counter==col_p)
-//    {
-//        delete top_card[top_counter];
-//        top_card[top_counter] = NULL;
-//        top_counter-=1;
-//        if(top_counter<0)
-//        {
-//            top_counter+=1;
-//            top_card[top_counter] = new card;
-//            *top_card[top_counter]=array[curr_player][col[curr_player]];
-//            col[curr_player]-=1;
-//        }
-//        ui->textEdit->append("Top card removed\nNew top card is: "+top_card[top_counter]->cardToString());
-//        miss_counter=0;
-//    }
-//    if(col[curr_player]<0) ui->textEdit->append("Player #"+QString::number(curr_player)+" is a WINNER!"), ui->pushButton_2->setDisabled(true);
-//    curr_player+=1;
-//    if(curr_player>=col_p) curr_player=0;
 }
 
 MainWindow::~MainWindow()

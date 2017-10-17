@@ -12,9 +12,9 @@ Stack::Stack(const Stack &copy)
     first = NULL;
     Node* temp = copy.first;
     int el = copy.stack_size;
-    while(el>=0)
+    while(el>0)
     {
-        for(int i = 0; i<el; i++) temp = temp->next;
+        for(int i = 0; i < el-1; i++) temp = temp->next;
         push(temp->data);
         temp = copy.first;
         el-=1;
