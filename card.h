@@ -2,34 +2,19 @@
 #define CARD_H
 #include <QString>
 #include <iostream>
+#include "simplecard.h"
 
-enum Suit
-{
-    diamonds, hearts, spades, clubs
-};
-
-enum Nominal
-{
-    ace, two, three, four, five, six, seven, eight, nine, ten, jack, queen, king
-};
-
-class card
+class card : public SimpleCard
 {
 public:
     card();
     card(Nominal _nominal, Suit _suit);
     card(const card &a);
     ~card();
-    QString suitToString();
-    QString nominalToString();
-    QString cardToString();
-    Nominal getNominal();
-    void setNominal(Nominal _nominal);
-    Suit getSuit();
-    void setSuit(Suit _suit);
-    void show();
+    virtual void set_Nominal(Nominal _nominal);
+    virtual void set_Suit(Suit _suit);
+    virtual int getType();
 private:
-    Nominal nominal;
     Suit suit;
 };
 

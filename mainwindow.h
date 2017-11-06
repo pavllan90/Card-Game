@@ -24,12 +24,18 @@ private:
     int col_p, col_c, curr_player;
     Stack players[10];
     Stack top_card;
-    int miss_counter;
+    int miss_counter, step_counter;
     bool gameOver;
 private slots:
     void giveCards();
     void nextStep();
     void fastGame();
+    void save_c();
+    void load_c();
+    void restart();
+    void showStack();
+    void size();
+    void isEmpty();
 };
 
 #endif // MAINWINDOW_H
