@@ -18,10 +18,10 @@ public:
     void push(SimpleCard* a);
     SimpleCard* pop();
     int size();
-    bool is_Empty();
+    bool isEmpty();
     void show();
-    void save_to_file(QString name);
-    void load_from_file(QString name);
+    void saveToFile(QString name);
+    void loadFromFile(QString name);
     void mix();
     Node *first;
 private:

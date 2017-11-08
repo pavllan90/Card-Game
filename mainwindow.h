@@ -21,21 +21,22 @@ public:
 private:
     Ui::MainWindow *ui;
     Stack coloda;
-    int col_p, col_c, curr_player;
+    int playersCount, cardsCount, currPlayer;
     Stack players[10];
-    Stack top_card;
-    int miss_counter, step_counter;
+    Stack topCard;
+    int missCounter, stepCounter;
     bool gameOver;
 private slots:
     void giveCards();
     void nextStep();
     void fastGame();
-    void save_c();
-    void load_c();
+    void save();
+    void load();
     void restart();
     void showStack();
     void size();
     void isEmpty();
+
 };
 
 #endif // MAINWINDOW_H

@@ -27,17 +27,17 @@ Stack::Stack(const Stack &copy)
 
 void Stack::mix()
 {
-    SimpleCard temp;
-    for(int i = 0; i<stack_size; i++)//сделать в стеке
+    SimpleCard *temp;
+    for(int i = 0; i<stack_size; i++)
     {
         Stack::Node* a, *b;
         a = b = first;
         int curr = rand()%(stack_size-1);
         for(int j = 0; j<i; j++) a = a->next;
         for(int k = 0; k<curr; k++) b = b->next;
-        temp=*(b->data);
-        *(b->data)=*(a->data);
-        *(a->data) = temp;
+        temp=(b->data);
+        (b->data)=(a->data);
+        (a->data) = temp;
     }
 }
 
@@ -51,7 +51,7 @@ void Stack::show()
     }
 }
 
-void Stack::save_to_file(QString name)
+void Stack::saveToFile(QString name)
 {
     QFile file;
     file.setFileName(name);
@@ -59,12 +59,17 @@ void Stack::save_to_file(QString name)
     QDataStream stream(&file);
     for(Node* temp = first; temp; temp=temp->next)
     {
-        stream<<QString::number(int(temp->data->get_Suit()))<<QString::number(int(temp->data->get_Nominal()));
+        stream<<QString::number(temp->data->getType());
+        if(temp->data->getType()==0)
+            stream<<QString::number(int(dynamic_cast<Card*>(temp->data)->getSuit()))<<QString::number(int(dynamic_cast<Card*>(temp->data)->getNominal()));
+        else
+            stream<<QString::number(int(dynamic_cast<UnoCard*>(temp->data)->getColor()))<<QString::number(int(dynamic_cast<UnoCard*>(temp->data)->getNominal()));
+
     }
     file.close();
 }
 
-void Stack::load_from_file(QString name)
+void Stack::loadFromFile(QString name)
 {
     QFile file;
     file.setFileName(name);
@@ -74,15 +79,17 @@ void Stack::load_from_file(QString name)
     {
         QString _suit ;//= file.readLine();
         QString _nominal ;//= file.readLine(); //= file.readLine();
+        QString _type;
+        stream<<_type;
         stream>>_suit>>_nominal;
-        if(Nominal(_nominal.toInt())>=jack  &&Nominal(_nominal.toInt())<=ten  &&Suit(_suit.toInt())>=diamonds &&Suit(_suit.toInt())<=clubs)
+        if(_type.toInt()==0)
         {
-            card* a =  new card(Nominal(_nominal.toInt()),Suit(_suit.toInt()));
+            Card* a =  new Card(Nominal(_nominal.toInt()),Suit(_suit.toInt()));
             push(a);
         }
         else
         {
-            UnoCard* a = new UnoCard(Nominal(_nominal.toInt()),Suit(_suit.toInt()));
+            UnoCard* a = new UnoCard(Nominal(_nominal.toInt()),Colors(_suit.toInt()));
             push (a);
         }
     }
@@ -99,7 +106,7 @@ int Stack::size()
     return stack_size;
 }
 
-bool Stack::is_Empty()
+bool Stack::isEmpty()
 {
     if(first) return false;
     else return true;

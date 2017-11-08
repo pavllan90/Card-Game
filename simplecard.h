@@ -10,30 +10,21 @@ enum Nominal
    jack, queen, king, ace, two, three, four, five, six, seven, eight, nine, ten,  zero, one
 };
 
-enum Suit
-{
-    diamonds, hearts, spades, clubs, red, green, blue, yellow
-};
-
 class SimpleCard
 {
 public:
     SimpleCard();
-    SimpleCard(Nominal _nom, Suit _suit);
+    SimpleCard(Nominal _nom);
     SimpleCard(const SimpleCard& a);
     ~SimpleCard();
-    virtual void set_Suit();
-    virtual void set_Nominal();
     virtual int getType();
-    void show();
-    QString nominal_To_String();
-    Nominal get_Nominal();
-    QString suit_To_String();
-    QString card_To_String();
-    Suit get_Suit();
+    virtual void show();
+    QString nominalToString();
+    Nominal getNominal();
+    virtual QString cardToString();
 protected:
     Nominal nominal;
-    Suit suit;
+
 };
 
 #endif // SIMPLECARD_H

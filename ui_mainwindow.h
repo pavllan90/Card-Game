@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed 1. Nov 18:40:02 2017
+** Created: Tue 7. Nov 17:07:41 2017
 **      by: Qt User Interface Compiler version 4.7.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -48,7 +48,6 @@ public:
     QFrame *line;
     QRadioButton *radioButton_2;
     QFrame *line_2;
-    QRadioButton *radioButton_3;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
     QLineEdit *lineEdit;
@@ -143,11 +142,6 @@ public:
         line_2->setFrameShadow(QFrame::Sunken);
 
         horizontalLayout_2->addWidget(line_2);
-
-        radioButton_3 = new QRadioButton(tab);
-        radioButton_3->setObjectName(QString::fromUtf8("radioButton_3"));
-
-        horizontalLayout_2->addWidget(radioButton_3);
 
 
         gridLayout_2->addLayout(horizontalLayout_2, 0, 1, 1, 1);
@@ -413,7 +407,6 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
         radioButton->setText(QApplication::translate("MainWindow", "Cards", 0, QApplication::UnicodeUTF8));
         radioButton_2->setText(QApplication::translate("MainWindow", "Uno", 0, QApplication::UnicodeUTF8));
-        radioButton_3->setText(QApplication::translate("MainWindow", "Both", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "Number of players:", 0, QApplication::UnicodeUTF8));
         pushButton->setText(QApplication::translate("MainWindow", "Start", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "Top card: ", 0, QApplication::UnicodeUTF8));

@@ -4,15 +4,24 @@
 #include <iostream>
 #include "simplecard.h"
 
-class card : public SimpleCard
+enum Suit
+{
+    diamonds, hearts, spades, clubs
+};
+
+class Card : public SimpleCard
 {
 public:
-    card();
-    card(Nominal _nominal, Suit _suit);
-    card(const card &a);
-    ~card();
-    virtual void set_Nominal(Nominal _nominal);
-    virtual void set_Suit(Suit _suit);
+    Card();
+    Card(Nominal _nominal, Suit _suit);
+    Card(const Card &a);
+    ~Card();
+    void setNominal(Nominal _nominal);
+    void setSuit(Suit _suit);
+    Suit getSuit();
+    QString suitToString();
+    QString cardToString();
+    void show();
     virtual int getType();
 private:
     Suit suit;

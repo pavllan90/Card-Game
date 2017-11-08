@@ -55,13 +55,6 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton_3">
-            <property name="text">
-             <string>Both</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item row="2" column="1">

@@ -3,20 +3,20 @@
 
 UnoCard::UnoCard() : SimpleCard()
 {
-    suit = blue;
+    color = blue;
     nominal = two;
 }
 
-UnoCard::UnoCard(Nominal _nom, Suit _suit) : SimpleCard(_nom, _suit)
+UnoCard::UnoCard(Nominal _nom, Colors _color) : SimpleCard(_nom)
 {
     nominal = (_nom>=two && _nom<=one) ? _nom : UnoCard().nominal;
-    suit = (_suit>=red && _suit<=yellow) ? _suit : UnoCard().suit;
+    color = (_color>=red && _color<=yellow) ? _color : UnoCard().color;
 }
 
 UnoCard::UnoCard(const UnoCard &a) : SimpleCard(a)
 {
     nominal = a.nominal;
-    suit = a.suit;
+    color = a.color;
 }
 
 UnoCard::~UnoCard()
@@ -24,9 +24,33 @@ UnoCard::~UnoCard()
 
 }
 
-void UnoCard::set_Suit(Suit _suit)
+Colors UnoCard::getColor()
 {
-    suit = (_suit>=red&&_suit<=yellow) ? _suit : suit;
+    return color;
+}
+
+void UnoCard::set_Color(Colors _color)
+{
+    color = (_color>=red&&_color<=yellow) ? _color : color;
+}
+
+QString UnoCard::colorToString()
+{
+    switch (color)
+    {
+    case red:
+        return "red";
+        break;
+    case green:
+        return "green";
+        break;
+    case blue:
+        return "blue";
+        break;
+    case yellow:
+        return "yellow";
+        break;
+    }
 }
 
 void UnoCard::setNominal(Nominal _nom)
@@ -39,3 +63,12 @@ int UnoCard::getType()
     return 2;
 }
 
+QString UnoCard::cardToString()
+{
+    return nominalToString()+" of "+colorToString();
+}
+
+void UnoCard::show()
+{
+    cout<<cardToString().toLatin1().data()<<endl;
+}
