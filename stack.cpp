@@ -89,7 +89,7 @@ void Stack::loadFromFile(QString name)
         }
         else
         {
-            UnoCard* a = new UnoCard(Nominal(_nominal.toInt()),Colors(_suit.toInt()));
+            UnoCard* a = new UnoCard(UnoNominal(_nominal.toInt()),Colors(_suit.toInt()));
             push (a);
         }
     }
@@ -115,7 +115,20 @@ bool Stack::isEmpty()
 void Stack::push(SimpleCard *a)
 {
     Node *temp = new Node;
-    temp->data = a;
+    if(a->getType() == 1)
+    {
+        Card *copy = new Card;
+        *copy = (*dynamic_cast<Card*>(a));//= *;
+        temp->data = copy;
+    }
+    else
+    {
+        UnoCard *copy = new UnoCard;
+        *copy = (*dynamic_cast<UnoCard*>(a));
+        temp->data = copy;
+    }
+    delete a;
+    //temp->data = a;//небезопасно создавать новый объект такого же типа который пришёл через нью
     stack_size+=1;
     if(!first) first = temp;
     else temp->next = first, first = temp;

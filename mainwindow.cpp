@@ -81,12 +81,10 @@ void MainWindow::giveCards()
     else if(ui->radioButton_2->isChecked())
     {
         cardsCount=int(76/playersCount);
-        for(int i = 0; i<4; i++) coloda.push(new UnoCard(Nominal(13), Colors(i%4)));
-        for(int i = 0; i<76; i++)
-        {
-            if(Nominal(int(4+i%10))==zero) i++;
-            coloda.push(new UnoCard(Nominal(4+i%10), Colors(i%4)));
-        }
+        for(int i = 0; i<4; i++) coloda.push(new UnoCard(UnoNominal(0), Colors(i)));
+        for(int i = 0; i<96; i++) coloda.push(new UnoCard(UnoNominal(1+i%12), Colors(i%4)));
+        for(int i = 0; i<4; i++) coloda.push(new UnoCard(UnoNominal(13), Colors(4)));
+        for(int i = 0; i<4; i++) coloda.push(new UnoCard(UnoNominal(14), Colors(4)));
     }
     srand(time(NULL));
     coloda.show();
@@ -99,24 +97,27 @@ void MainWindow::giveCards()
         ui->pushButton_3->setEnabled(true);
         for(int i = 0; i<playersCount; i++)
         {
-            for(; players[i].size()<cardsCount; ) players[i].push(coloda.pop());
+            if(ui->radioButton->isChecked())
+                for(; players[i].size()<cardsCount; ) players[i].push(coloda.pop());
+            else
+                for(; players[i].size()<7; ) players[i].push(coloda.pop());
             std::cout<<"Player "<<i+1<<"  "<<players[i].size()<<std::endl;
             players[i].show();
         }
-          currPlayer = 0;
-          topCard.push(players[0].pop());
-          currPlayer = 1;
-          ui->tableWidget->setVisible(true);
-          ui->label->setVisible(false);
-          ui->pushButton->setVisible(false);
-          ui->lineEdit->setVisible(false);
-          ui->pushButton_3->setVisible(true);
-          ui->pushButton_2->setVisible(true);
-          ui->label_2->setVisible(true);
-          ui->radioButton->setEnabled(false);
-          ui->radioButton_2->setEnabled(false);
-          ui->label_2->setText("Top card: "+topCard.get_First()->cardToString()+"\n");
-          ui->tableWidget->setColumnWidth(0, ui->tableWidget->width()-250-ui->tableWidget->verticalHeader()->width());
+        currPlayer = 0;
+        topCard.push(players[0].pop());
+        currPlayer = 1;
+        ui->tableWidget->setVisible(true);
+        ui->label->setVisible(false);
+        ui->pushButton->setVisible(false);
+        ui->lineEdit->setVisible(false);
+        ui->pushButton_3->setVisible(true);
+        ui->pushButton_2->setVisible(true);
+        ui->label_2->setVisible(true);
+        ui->radioButton->setEnabled(false);
+        ui->radioButton_2->setEnabled(false);
+        ui->label_2->setText("Top card: "+topCard.get_First()->cardToString()+"\n");
+        ui->tableWidget->setColumnWidth(0, ui->tableWidget->width()-250-ui->tableWidget->verticalHeader()->width());
     }
     else
     {
@@ -139,7 +140,6 @@ void MainWindow::showStack()
 {
     Stack::Node *temp = players[ui->spinBox->value()].first;
     ui->tableWidget_2->setRowCount( players[ui->spinBox->value()].size());
-
     ui->tableWidget_2->setColumnCount(1);
     ui->tableWidget_2->setColumnWidth(0, ui->tableWidget_2->width());
     ui->tableWidget_2->setHorizontalHeaderItem(0, new QTableWidgetItem ("Player "+QString::number(ui->spinBox->value())));
@@ -165,40 +165,97 @@ void MainWindow::nextStep()
         {
             topCard.push(players[currPlayer].pop());
         }
-
         ui->tableWidget->setItem(stepCounter-1, 0, new QTableWidgetItem("Player #: "+QString::number(currPlayer)));
         if(topCard.get_First()->getType()==1)
         {
             Card* a = dynamic_cast<Card*>(players[currPlayer].get_First());
             Card *b = dynamic_cast<Card*>(topCard.get_First());
-                if(a->getSuit()==b->getSuit()||a->getNominal()==b->getNominal())
-                {
-                    ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem(a->cardToString()));
-                    topCard.push(players[currPlayer].pop());
-                    missCounter = 0;
-                }
-                else
-                {
-                    missCounter+=1;
-                    ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem("Miss step"));
-                }
+            if(a->getSuit()==b->getSuit()||a->getNominal()==b->getNominal())
+            {
+                ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem(a->cardToString()));
+                topCard.push(players[currPlayer].pop());
+                missCounter = 0;
+            }
+            else
+            {
+                missCounter+=1;
+                ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem("Miss step"));
+            }
         }
         else
         {
             UnoCard* a = dynamic_cast<UnoCard*>(players[currPlayer].get_First());
             UnoCard *b = dynamic_cast<UnoCard*>(topCard.get_First());
-                if(a->getColor()==b->getColor()||a->getNominal()==b->getNominal())
+            if(a->getColor() == no_color)
+            {
+                qDebug("No color case");
+                if(a->getNominal()==u_four_colors) a->setColor(Colors(qrand()%4));
+                else
+                if (a->getNominal()==u_four_cards)
                 {
-                    ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem(a->cardToString()));
-                    topCard.push(players[currPlayer].pop());
-                    missCounter = 0;
+                    a->setColor(Colors(qrand()%4));
+                    if(currPlayer+1<playersCount)
+                    {
+                        for(int i = 0; i<4; i++) players[currPlayer+1].push(coloda.pop());
+                    }
+                    else
+                    {
+                        for(int i = 0; i<4; i++) players[0].push(coloda.pop());
+                    }
+                }
+                topCard.push(players[currPlayer].pop());
+                ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem(a->cardToString()));
+                missCounter = 0;
+            }
+            else
+            {
+                if(a->getColor()==b->getColor())
+                {
+                    qDebug("Same color case");
+                    if(a->getNominal()==u_two_cards)
+                    {
+                        qDebug("Two cards case");
+                        if(currPlayer<playersCount-1) players[currPlayer+1].push(coloda.pop());
+                        else players[0].push(coloda.pop());ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem(a->cardToString()));
+                        topCard.push(players[currPlayer].pop());
+
+                    } else
+                    if(a->getNominal()==u_stop)
+                    {
+                        qDebug("Stop case");
+                        ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem(a->cardToString()));
+                        topCard.push(players[currPlayer].pop());
+                        if(currPlayer<playersCount-1) currPlayer+=1;
+                        else currPlayer = 0;
+                    }
+                    else
+                    {
+                        qDebug("Same color case!");
+                        topCard.push(players[currPlayer].pop());
+                        ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem(a->cardToString()));
+                        missCounter = 0;
+                    }
                 }
                 else
                 {
-                    missCounter+=1;
-                    ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem("Miss step"));
+                    if(a->getNominal()==b->getNominal())
+                    {
+                        qDebug("Same nominal case");
+                        ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem(a->cardToString()));
+                        topCard.push(players[currPlayer].pop());
+                        missCounter = 0;
+                    }
+                    else
+                    {
+                        ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem("Misses step"));
+                        missCounter+=1;
+                    }
                 }
+
+            }
+
         }
+        qDebug("Miss counter %d", missCounter);
         if(missCounter==playersCount)
         {
             ui->tableWidget->setItem(stepCounter-1, 1, new QTableWidgetItem("Removes top card"));
@@ -212,7 +269,6 @@ void MainWindow::nextStep()
     else ui->label_2->setText("Top card: "+topCard.get_First()->cardToString()+"\n");
     if(currPlayer<playersCount-1)currPlayer+=1;
     else currPlayer = 0;
-
 }
 
 MainWindow::~MainWindow()

@@ -6,7 +6,7 @@ Card::Card() : SimpleCard()
     suit = spades;
 }
 
-Card::Card(Nominal _nominal, Suit _suit) : SimpleCard(_nominal)
+Card::Card(Nominal _nominal, Suit _suit)
 {
     if(_nominal>=jack&&_nominal<=ten)
     {
@@ -24,6 +24,58 @@ Card::Card(Nominal _nominal, Suit _suit) : SimpleCard(_nominal)
     {
         suit = Card().suit;
     }
+}
+
+QString Card::nominalToString()
+{
+    switch (nominal)
+    {
+    case ace:
+        return "ace";
+        break;
+    case two:
+        return "two";
+        break;
+    case three:
+        return "three";
+        break;
+    case four:
+        return "four";
+        break;
+    case five:
+        return "five";
+        break;
+    case six:
+        return "six";
+        break;
+    case seven:
+        return "seven";
+        break;
+    case eight:
+        return "eight";
+        break;
+    case nine:
+        return "nine";
+        break;
+    case ten:
+        return "ten";
+        break;
+    case jack:
+        return "jack";
+        break;
+    case queen:
+        return "queen";
+        break;
+    case king:
+        return "king";
+        break;
+    }
+}
+
+
+Nominal Card::getNominal()
+{
+    return nominal;
 }
 
 Card::Card(const Card &a) : SimpleCard(a)
@@ -46,8 +98,6 @@ void Card::setSuit(Suit _suit)
 {
     suit = (_suit>=diamonds && _suit<=clubs) ? _suit : suit;
 }
-
-
 
 QString Card::suitToString()
 {
@@ -85,7 +135,7 @@ int Card::getType()
 
 void Card::show()
 {
-    std::cout<<cardToString().toLatin1().data();
+    std::cout<<cardToString().toLatin1().data()<<std::endl;
 }
 
 

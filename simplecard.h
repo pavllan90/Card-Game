@@ -5,26 +5,14 @@
 #include<iostream>
 using namespace std;
 
-enum Nominal
-{
-   jack, queen, king, ace, two, three, four, five, six, seven, eight, nine, ten,  zero, one
-};
-
 class SimpleCard
 {
 public:
     SimpleCard();
-    SimpleCard(Nominal _nom);
-    SimpleCard(const SimpleCard& a);
     ~SimpleCard();
-    virtual int getType();
-    virtual void show();
-    QString nominalToString();
-    Nominal getNominal();
-    virtual QString cardToString();
-protected:
-    Nominal nominal;
-
+    virtual int getType() = 0;
+    virtual void show() = 0;
+    virtual QString cardToString() = 0;
 };
 
 #endif // SIMPLECARD_H
